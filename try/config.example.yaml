@@ -1,0 +1,77 @@
+# SmartMobileAutomation 配置文件示例
+# 请复制此文件为 config.yaml 并根据您的目标 App 进行配置
+
+# Appium 服务器地址
+server_url: "http://127.0.0.1:4723"
+
+# 目标时间（可选，也可以通过命令行参数传入）
+# 格式: "2025-01-20 20:00:00" 或 "20:00:00"
+target_time: "20:00:00"
+
+# 目标 App 配置
+app:
+  # App 包名（必填）
+  package_name: "com.example.app"
+  # App 启动 Activity（必填）
+  activity_name: ".MainActivity"
+
+# 设备配置
+device:
+  platform_version: "16"
+  device_name: "emulator-5554"
+
+# 自动化流程步骤配置
+# 用户需要根据目标 App 的 UI 结构自行配置元素定位器
+flow_steps:
+  # 步骤 1: 点击某个按钮
+  - name: "点击主按钮"
+    type: "click"
+    required: true
+    selectors:
+      - type: "id"  # 支持: id, xpath, uiautomator, class_name, text, text_contains
+        value: "com.example.app:id/main_button"
+      # 备用选择器（如果第一个失败，会尝试第二个）
+      - type: "xpath"
+        value: "//android.widget.Button[@text='主按钮']"
+  
+  # 步骤 2: 输入文本
+  - name: "输入搜索关键词"
+    type: "input"
+    required: true
+    text: "搜索内容"
+    selectors:
+      - type: "id"
+        value: "com.example.app:id/search_input"
+  
+  # 步骤 3: 等待
+  - name: "等待页面加载"
+    type: "wait"
+    time: 2.0
+  
+  # 步骤 4: 滑动刷新
+  - name: "下拉刷新"
+    type: "swipe"
+    direction: "down"
+  
+  # 步骤 5: 检查元素是否存在
+  - name: "检查结果页面"
+    type: "check"
+    required: false
+    selectors:
+      - type: "id"
+        value: "com.example.app:id/result_container"
+
+# 选择器类型说明:
+# - id: 使用 resource-id (推荐)
+# - xpath: 使用 XPath 表达式
+# - uiautomator: 使用 UiAutomator 选择器
+# - class_name: 使用类名
+# - text: 精确文本匹配
+# - text_contains: 文本包含匹配
+
+# 注意事项:
+# 1. 请使用 Android 开发者工具（如 uiautomatorviewer）获取准确的元素定位器
+# 2. 建议优先使用 resource-id，稳定性最好
+# 3. 为关键步骤配置备用选择器，提高成功率
+# 4. 请遵守目标 App 的用户协议，本工具仅用于个人效率提升
+
